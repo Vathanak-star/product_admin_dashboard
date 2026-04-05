@@ -1,17 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import userService from '../services/users'
 
 function RegisterPage() {
     const navigate = useNavigate()
+    const [username,setUsername] = useState('')
+    const [email,setEmail] = useState('')
+    const [password,setPassword] = useState('')
+
 
     const onLoginClick = (event) => {
         event.preventDefault()
         navigate('/login', {viewTransition: true})
     }
 
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault()
-        navigate('/home')
+        const userObj = {
+            name: username,
+            email: email,
+            password: password
+        }
+        try {
+            const result = await userService.register(userObj)
+            console.log(result.status)
+            if(result.status === 'success'){
+                navigate('/home')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+        
     }
 
     return (
@@ -26,17 +45,17 @@ function RegisterPage() {
                     <form onSubmit={onSubmit} className="flex flex-col mt-3">
                         <div>
                             <label htmlFor="username" className="block mb-2.5 text-sm font-medium">Enter Username: </label>
-                            <input type="text" id="username" name="username" className="w-full mb-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-gray-500 hover:border-gray-300 shadow-sm focus:shadow" placeholder="username"/>
+                            <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" id="username" name="username" className="w-full mb-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-gray-500 hover:border-gray-300 shadow-sm focus:shadow" placeholder="username"/>
                         </div>
 
                         <div>
                             <label htmlFor="email" className="block mb-2.5 text-sm font-medium">Enter Email: </label>
-                            <input type="email" id="email" name="email" className="w-full mb-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-gray-500 hover:border-gray-300 shadow-sm focus:shadow" placeholder="example@gmaill.com"/>
+                            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="email" name="email" className=" w-full mb-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-gray-500 hover:border-gray-300 shadow-sm focus:shadow" placeholder="example@gmaill.com"/>
                         </div>
 
                         <div>
                             <label htmlFor="password" className="block mb-2.5 text-sm font-medium">Enter Password: </label>
-                            <input type="password" id="password" name="password" className="mb-6 w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-gray-500 hover:border-gray-300 shadow-sm focus:shadow" placeholder="Password"/>
+                            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" name="password" className="mb-6 w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-gray-500 hover:border-gray-300 shadow-sm focus:shadow" placeholder="Password"/>
                         </div>
                         
                         <input type="submit" value="Submit"  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer transition duration-300"/>

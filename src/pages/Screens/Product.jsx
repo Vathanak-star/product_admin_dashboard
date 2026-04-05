@@ -12,6 +12,8 @@ const desc = "AMD Ryzen™ 9 9955HX NVIDIA® GeForce RTX™ 5070 16GB DDR5 1TB P
 
 export default function Product(){
     const [items, setItems] =useState([])
+    const [filterItems, setFilterItems] = useState([])
+
     const [openAdd,setOpenAdd] = useState(false)
     const [categories,setCategories] = useState([])
     const [selectValue,setSelectValue] = useState('')
@@ -27,6 +29,7 @@ export default function Product(){
 
 
     const [search,setSearch] = useState('')
+    const [searchClick,setSearchClick] = useState(false)
     const [filterCat,setFilterCat] = useState('')
 
     const resetField = () => {
@@ -55,8 +58,8 @@ export default function Product(){
       const tempItems = [...items]
       const searchItem = tempItems.filter((item) => item.name.toLowerCase().startsWith(search))
       console.log(searchItem)
-      setItems(searchItem)
-      
+      setFilterItems(searchItem)
+      setSearchClick(true)
     }
 
 
@@ -179,11 +182,22 @@ export default function Product(){
     },[])
 
     useEffect(() => {
+      if(!search){
+        setSearchClick(false)
+      }
+    },[search])
+
+    useEffect(() => {
       itemsService.getAllItem().then(items => {
         console.log(items.data)
         setItems(items.data)
       })
     },[])
+
+    useEffect(() => {
+      const filterCategory = items.filter(i => i.category == catValue)
+      setFilterItems(filterCategory)
+    },[catValue])
 
     const onAddNewItem = () => {
       const ItemObj = {
@@ -238,8 +252,8 @@ export default function Product(){
 
                         <div className="relative w-45 lg:w-70 transition-all ml-3">
                         <select
-                                value={catValue} onChange={e => setCatValue(e.target.value)} class="w-full transition-all bg-white placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
-                                <option selected>Filter By Category</option>
+                                value={catValue} onChange={e => setCatValue(e.target.value)} className="w-full transition-all bg-white placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
+                                <option selected value=''>Filter By Category</option>
                                 {categories.map(categories => {
                                   return <option key={categories.id} value={categories.name}>{categories.name}</option>
                                 })}
@@ -259,7 +273,7 @@ export default function Product(){
             <div className="p-6 mt-0">
                 <Box sx={{ height: 540, width: '100%'}}>
                     <DataGrid
-                        rows={items}
+                        rows={(searchClick || catValue) ? filterItems : items}
                         columns={columns}
                         initialState={{
                             pagination: {
