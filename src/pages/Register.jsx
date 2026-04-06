@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import userService from '../services/users'
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 function RegisterPage() {
     const navigate = useNavigate()
@@ -24,6 +25,20 @@ function RegisterPage() {
         try {
             const result = await userService.register(userObj)
             console.log(result.status)
+            if(result.msg === 'User with this email already exists.'){
+                toast.error('Email aleady exists!', {
+                                          position: "top-right",
+                                          autoClose: 3000,
+                                          hideProgressBar: false,
+                                          closeOnClick: false,
+                                          pauseOnHover: true,
+                                          draggable: true,
+                                          progress: undefined,
+                                          theme: "light",
+                                          transition: Bounce,
+                });
+            }
+
             if(result.status === 'success'){
                 navigate('/home')
             }
@@ -35,6 +50,19 @@ function RegisterPage() {
 
     return (
         <div className="flex h-screen justify-center items-center bg-white sm:bg-gray-100  transition-colors duration-400">
+            <ToastContainer
+                                  position="top-right"
+                                  autoClose={3000}
+                                  hideProgressBar={false}
+                                  newestOnTop={false}
+                                  closeOnClick={false}
+                                  rtl={false}
+                                  pauseOnFocusLoss
+                                  draggable
+                                  pauseOnHover
+                                  theme="light"
+                                  transition={Bounce}
+            />
             <div className="bg-white rounded-lg p-4 w-full max-w-md mx-auto">
                 <div className="flex flex-col m-10">
                     <div className="w-full flex justify-center mb-2">

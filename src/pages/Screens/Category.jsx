@@ -4,6 +4,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import categoryService from '../../services/categories'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -51,6 +53,17 @@ export default function Category(){
 
         setMainCat('')
         setOpen(false)
+        toast.success('Update Main Category Success!', {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: false,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+                });
       } catch (error) {
         console.log(error)
       }
@@ -69,6 +82,17 @@ export default function Category(){
 
         setSubCat('')
         setOpen2(false)
+        toast.success('Update Sub Category Success!', {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: false,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+                });
       } catch (error) {
         console.log(error)
       }
@@ -81,6 +105,18 @@ export default function Category(){
         setCategoires(cate => cate.filter(item => item.id !== id))
         setSubCategories(subCat => subCat.filter(item => item.mainCategoryId !== id))
         console.log('Main Category Delete Finish')
+
+        toast.success('Delete Main Category Success!', {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: false,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+                });
       } catch (error) {
         console.log(error.message)
       }
@@ -92,6 +128,17 @@ export default function Category(){
         console.log(result)
         setSubCategories(subCat => subCat.filter(item => item.id !== id))
         console.log(subCategories)
+        toast.success('Delete Sub Category Success!', {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: false,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+                });
       } catch (error) {
         console.log(error.message)
       }
@@ -186,6 +233,17 @@ export default function Category(){
         console.log(result.data)
         setCategoires([...categories,result.data])
         setNameMain('')
+        toast.success('Add main Category Success!', {
+                          position: "top-right",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: false,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "light",
+                          transition: Bounce,
+                        });
       } catch (error) {
         console.log(error)
       }
@@ -203,6 +261,17 @@ export default function Category(){
         console.log(result.data)
         setSubCategories([...subCategories,result.data])
         setNameSub('')
+        toast.success('Add Sub Category Success!', {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: false,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+                });
       } catch (error) {
         console.log(error)
       }
@@ -211,6 +280,19 @@ export default function Category(){
 
     return (
         <div className="flex flex-col h-screen bg-gray-100">
+          <ToastContainer
+                                  position="top-right"
+                                  autoClose={3000}
+                                  hideProgressBar={false}
+                                  newestOnTop={false}
+                                  closeOnClick={false}
+                                  rtl={false}
+                                  pauseOnFocusLoss
+                                  draggable
+                                  pauseOnHover
+                                  theme="light"
+                                  transition={Bounce}
+            />
             <div className="flex w-full h-16 bg-white justify-center items-center shadow shadow-indigo-100">
                 <Layers className="mr-3 w-5 h-5"/>
                 <h1 className="font-semibold text-lg"> Manage Categories</h1>

@@ -7,8 +7,11 @@ import Box from '@mui/material/Box';
 import categoryService from '../../services/categories'
 import itemsService from '../../services/items'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const desc = "AMD Ryzen™ 9 9955HX NVIDIA® GeForce RTX™ 5070 16GB DDR5 1TB PCIe® 4.0 NVMe™ M.2 SSD FHD+ 165Hz Windows 11 Home"
+
 
 export default function Product(){
     const [items, setItems] =useState([])
@@ -27,10 +30,8 @@ export default function Product(){
     const [openUp,setOpenUp] = useState(false)
     const [updateId,setUpdateId] = useState(0)
 
-
     const [search,setSearch] = useState('')
     const [searchClick,setSearchClick] = useState(false)
-    const [filterCat,setFilterCat] = useState('')
 
     const resetField = () => {
         setName('')
@@ -48,7 +49,6 @@ export default function Product(){
       resetField()
     }
 
-    const handleOpenUP = () => setOpenUp(true)
     const handleCloseUp = () => {
       setOpenUp(false)
       resetField()
@@ -69,6 +69,17 @@ export default function Product(){
         console.log(result)
         setItems(item => item.filter(i => i.id !== id))
         console.log('Delete Item finish')
+        toast.success('Delete Item Success!', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       } catch (error) {
         console.log(error.message)
       }
@@ -102,7 +113,17 @@ export default function Product(){
         setItems(newData)
         setOpenUp(false)
         resetField()
-
+        toast.success('Update Item Success!', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       } catch (error) {
         console.log(error.message)
       }
@@ -216,6 +237,17 @@ export default function Product(){
 
         setOpenAdd(false)
         resetField()
+        toast.success('Add Item Success!', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       }).catch(error => {
         console.log(error.message)
       })
@@ -223,6 +255,19 @@ export default function Product(){
 
     return (
         <div className="flex flex-col h-screen bg-gray-100">
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              transition={Bounce}
+            />
             <div className="flex w-full h-16 bg-white justify-center items-center shadow shadow-indigo-100">
                 <ShoppingCart className="mr-3 w-5 h-5"/>
                 <h1 className="font-semibold text-lg"> Manage Products</h1>

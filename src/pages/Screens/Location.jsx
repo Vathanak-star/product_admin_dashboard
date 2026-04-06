@@ -4,6 +4,8 @@ import locationService from "../../services/locations"
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -48,6 +50,17 @@ export default function Location(){
         setLocations(newData)
         console.log('Delete Success')
         setOPenLocation(false)
+        toast.success('Delete Location Success!', {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: false,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+                });
       }).catch(error => {
         console.log(error)
       })
@@ -68,6 +81,17 @@ export default function Location(){
         setGoogleMap1('')
         setImage1('')
         setOpen2(false)
+        toast.success('Update Location Success!', {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: false,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+                });
       }).catch(error => {
         console.log(error)
       })
@@ -141,6 +165,17 @@ export default function Location(){
         console.log(`Data: ${JSON.stringify(location.data)}`)
         console.log(typeof locations, locations)
         setLocations([...locations,location.data])
+        toast.success('Add Location Success!', {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: false,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+          });
       }).catch(error => {
         console.log(error.message)
       })
@@ -155,6 +190,19 @@ export default function Location(){
 
     return (
         <div className="flex flex-col h-screen bg-gray-100">
+          <ToastContainer
+                        position="top-right"
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick={false}
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                        transition={Bounce}
+                      />
             {/* appbar */}
             <div className="flex w-full h-16 bg-white justify-center items-center shadow shadow-indigo-100">
                 <MapPin className="mr-3 w-5 h-5"/>
